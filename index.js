@@ -1,19 +1,12 @@
-var log = (function () {
-  var winston = require('winston');
-  return new (winston.Logger)({
-    transports: [
-      new (winston.transports.Console)({ level: 'debug', colorize: true })
-      //,new (winston.transports.File)({ filename: 'somefile.log' })
-    ]
-  });
-})();
+var log = require('./logger.js'),
+    socketClient = require('socket.io-client'),
+    request = require('request');
 
-var PUSH_PROXY_URL = process.env.PUSH_PROXY_URL || 'localhost:3000';
-var JENKINS_URL = process.env.JENKINS_URL || 'localhost:3001';
+var PUSH_PROXY_URL = process.env.PUSH_PROXY_URL || 'http://localhost:3000';
+var CI_URL = process.env.CI_URL || 'http://localhost:3001';
 
 log.info('Socket.IO connecting to %s...', PUSH_PROXY_URL);
-var socket = require('socket.io-client')(PUSH_PROXY_URL),
-    request = require('request');
+var socket = socketClient(PUSH_PROXY_URL);
 
 socket.on('connect', function (socket) {
   log.info('Socket.IO connected.');
