@@ -12,11 +12,11 @@ socket.on('connect', function (socket) {
   log.info('Socket.IO connected.');
 });
 
-socket.on('payload', function (data) {
-  log.info('Payload received: %s', data);
+socket.on('PushEvent', function (data) {
+  log.info('PushEvent received: %s', data);
 
   var options = {
-    url: JENKINS_URL,
+    url: CI_URL,
     headers: {
       'X-Github-Event': 'push'
     },
@@ -25,18 +25,18 @@ socket.on('payload', function (data) {
     }
   };
 
-  log.info('Forwarding on payload...');
+  log.info('Sending PushEvent to CI...');
   request.post(options, function (err, res, body) {
     if (err)
-      return log.error('Forwarding error:', err);
+      return log.error('CI error:', err);
 
     if (res.statusCode !== 200) {
-      log.error('Forwarding returned status code: %d', res.statusCode);
+      log.error('CI returned status code: %d', res.statusCode);
       log.error('body: %s', body);
       return;
     }
 
-    log.info('Forwarding complete.');
+    log.info('Sent PushEvent to CI successfully.');
   });
 });
 

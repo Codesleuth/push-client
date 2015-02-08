@@ -9,7 +9,7 @@ var logger = new (winston.Logger)({
       colorize: true
     })
   ],
-  exitOnError: false
+  exitOnError: true
 });
 
 module.exports = logger;
