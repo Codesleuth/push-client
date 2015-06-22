@@ -1,28 +1,30 @@
 {
-  "name": "push-client",
-  "version": "0.0.1",
-  "description": "Forwards GitHub push hooks proxied through the push proxy.",
+  "name": "push-client-js",
+  "version": "0.0.2",
+  "description": "Receives GitHub webhooks from a push broker. See: https://push-broker.herokuapp.com",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node ./bin/push-client.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/codesleuth/push-client.git"
-  },
+  "repository": "codesleuth/push-client-js",
   "author": "David Wood <david.p.wood@gmail.com> (http://www.codesleuth.co.uk/)",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/codesleuth/push-client/issues"
-  },
-  "homepage": "https://github.com/codesleuth/push-client",
+  "bugs": "https://github.com/codesleuth/push-client-js/issues",
+  "homepage": "https://github.com/codesleuth/push-client-js",
   "engine": {
     "node": ">=0.10.20"
   },
   "dependencies": {
+    "minimist": "^1.1.1",
+    "request": "~2.53.0",
     "socket.io-client": "~1.3.3",
-    "winston": "~0.9.0",
-    "request": "~2.53.0"
+    "winston": "~0.9.0"
+  },
+  "devDependencies": {
+    "browserify": "^10.2.4",
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }

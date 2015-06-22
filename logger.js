@@ -5,7 +5,7 @@ var logger = new (winston.Logger)({
     new winston.transports.Console({
       level: 'debug',
       timestamp: true,
-      handleExceptions: true,
+      handleExceptions: false,
       colorize: true
     })
   ],
