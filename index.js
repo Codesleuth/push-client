@@ -22,8 +22,12 @@ function ConnectClient(url, secret, onpush, onsecret) {
 function PushClient() {
 }
 
-PushClient.prototype.disconnect = function() {
+PushClient.prototype.disconnect = function () {
   this.socket.disconnect();
+};
+
+PushClient.prototype.setsecret = function (secret) {
+  this.socket.emit('secret', secret);
 };
 
 
