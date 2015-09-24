@@ -1,44 +1,49 @@
-var wdw = typeof window === 'undefined' ? {} : window;
-var io = wdw.io || require('socket.io-client');
+var io = require('socket.io-client'),
+    Emitter = require('component-emitter');
 
 var defaultUrl = 'https://push-broker.herokuapp.com';
 
-function ConnectClient(url, secret, onpush, onsecret) {
-  var socket = io(url, { multiplex: true });
+function PushClient(options) {
+  this.secret = options.secret;
+
+  var self = this;
+  var socket = this.socket = io(options.url, { multiplex: true });
 
   socket.on('connect', function () {
-    socket.emit('secret', secret, function () {
-      onsecret(secret);
-    });
-  })
-
-  socket.on('PushEvent', function (data) {
-    onpush(data);
+    self.setsecret(self.options.secret);
   });
 
-  this.socket = socket;
-};
-
-function PushClient() {
+  socket.on('PushEvent', function (data) {
+    self.options.onpush(data);
+  });
 }
+
+Emitter(PushClient.prototype);
+
+
 
 PushClient.prototype.disconnect = function () {
   this.socket.disconnect();
 };
 
-PushClient.prototype.setsecret = function (secret) {
-  this.socket.emit('secret', secret);
+PushClient.prototype.__secretCallback = function (secret) {
+  this.options.onsecret(secret);
 };
 
+PushClient.prototype.setsecret = function (secret) {
+  this.options.secret = secret;
+  this.socket.emit('secret', secret, this.__secretCallback.bind(this));
+};
 
 module.exports.create = function (options) {
-  options = options || {};
+  var o = {};
   url = options.url || defaultUrl;
   secret = options.secret || '';
-  onpush = options.onpush || function () {};
-  onsecret = options.onsecret || function () {};
 
-  var client = new PushClient();
-  ConnectClient.call(client, url, secret, onpush, onsecret);
+  var client = new PushClient({
+    url: url,
+    secret: secret,
+    
+  });
   return client;
 }

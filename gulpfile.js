@@ -13,9 +13,9 @@ gulp.task('copy:socket.io', function(){
 });
  
 gulp.task('build', function() {
-  return browserify('./index.js', {
-    insertGlobals: false,
-    bundleExternal: false,
+  return browserify({
+    buildins: false,
+    entries: ['./index.js'],
     standalone: 'pushclient'
   })
   .bundle()

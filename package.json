@@ -3,9 +3,8 @@
   "version": "0.0.2",
   "description": "Receives GitHub webhooks from a push broker. See: https://push-broker.herokuapp.com",
   "main": "index.js",
-  "scripts": {
-    "start": "node ./bin/push-client.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "bin": {
+    "push-client": "./bin/push-client.js"
   },
   "repository": "codesleuth/push-client-js",
   "author": "David Wood <david.p.wood@gmail.com> (http://www.codesleuth.co.uk/)",
@@ -16,6 +15,7 @@
     "node": ">=0.10.20"
   },
   "dependencies": {
+    "component-emitter": "1.1.2",
     "minimist": "^1.1.1",
     "request": "~2.53.0",
     "socket.io-client": "~1.3.3",
